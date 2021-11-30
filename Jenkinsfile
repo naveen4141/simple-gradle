@@ -5,12 +5,18 @@ pipeline {
 
     stages {
         stage('Compile') {
-            steps {
+            agent {
+                label 'Grd-Mvn'
+            }
+			steps {
                 gradle('clean', 'classes')
             }
         }
         stage('Unit Tests') {
-            steps {
+            agent {
+                label 'Grd-Mvn'
+            }
+			steps {
                 gradle('test')
             }
             post {
@@ -20,12 +26,15 @@ pipeline {
             }
         }
         stage('Assemble') {
-            steps {
+            agent {
+                label 'Grd-Mvn'
+            }
+			steps {
                 gradle('assemble')
                 stash includes: '**/build/libs/*.war', name: 'app'
             }
         }
-        
+    }   
 }
 
 
